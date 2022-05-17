@@ -50,7 +50,7 @@ spring:
 eureka:
   client:
     service-url:
-      defualtZone: http://52.53.225.72:8761/eureka/
+      defualtZone: http://52.53.225.72:8761/eureka
     register-with-eureka: true
     fetch-registry: true
 
