@@ -13,8 +13,7 @@ public class WebConfig implements WebFluxConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
 
         registry.addMapping("/**")
-                .allowedOrigins("http://175.124.18.76:8081") // any host or put domain(s) here
-                .allowedOrigins("http://3.101.111.107:7000") // any host or put domain(s) here
+                .allowedOrigins("http://3.101.111.107:7000, http://175.124.18.76:8081") // any host or put domain(s) here
                 .allowedMethods("GET","POST","PUT","DELETE") // put the http verbs you want allow
                 .allowedHeaders("*") // put the http headers you want allow
                 .allowCredentials(true);
