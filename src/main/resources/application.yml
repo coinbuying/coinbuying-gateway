@@ -14,29 +14,36 @@ spring:
         connect-timeout: 3000
         response-timeout: 3s
       routes: # filter 설정
-        - id: Member Domain Server Welcome
+        - id: Users no-auth
           uri: http://54.215.113.3:8081/
           predicates:
             - Path=/user/login,/user/signup
 
-        - id: Member Domain Server for Member
+        - id: Users
           uri: http://54.215.113.3:8081/
           predicates:
             - Path=/user/**
           filters:
             - JwtAuthVerifyFilter
 
-        - id: Asset Domain Server for Member
+        - id: Assets
           uri: http://54.183.238.100:8082/
           predicates:
-            - Path=/asset/**
+            - Path=/wallet/**
           filters:
             - JwtAuthVerifyFilter
-            -
-        - id: Board Domain Server for Member
+
+        - id: Boards
           uri: http://54.177.31.11:8083/
           predicates:
-            - Path=/board/**
+            - Path=/boards/**
+          filters:
+            - JwtAuthVerifyFilter
+
+        - id: Posts
+          uri: http://54.177.31.11:8083/
+          predicates:
+            - Path=/posts/**
           filters:
             - JwtAuthVerifyFilter
 

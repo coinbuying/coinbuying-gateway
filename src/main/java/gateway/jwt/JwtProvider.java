@@ -1,5 +1,7 @@
 package gateway.jwt;
 
+import gateway.exception.status.ExceptionMessage;
+import gateway.exception.status.UnauthorizedException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -9,8 +11,6 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import team.msa.gateway.infrastructure.exception.status.ExceptionMessage;
-import team.msa.gateway.infrastructure.exception.status.UnauthorizedException;
 
 import javax.crypto.SecretKey;
 
