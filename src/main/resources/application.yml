@@ -1,0 +1,81 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: Gateway Server
+
+  cloud:
+    cicuitbreaker:
+      resilience4j:
+        enabled: true
+    gateway:
+      httpclient:
+        connect-timeout: 3000
+        response-timeout: 3s
+      routes: # filter 설정
+        - id: Member Domain Server Welcome
+          uri: http://54.215.113.3:8081/
+          predicates:
+            - Path=/user/login,/user/signup
+
+        - id: Member Domain Server for Member
+          uri: http://54.215.113.3:8081/
+          predicates:
+            - Path=/user/**
+          filters:
+            - JwtAuthVerifyFilter
+
+        - id: Asset Domain Server for Member
+          uri: http://54.183.238.100:8082/
+          predicates:
+            - Path=/asset/**
+          filters:
+            - JwtAuthVerifyFilter
+            -
+        - id: Board Domain Server for Member
+          uri: http://54.177.31.11:8083/
+          predicates:
+            - Path=/board/**
+          filters:
+            - JwtAuthVerifyFilter
+
+eureka:
+  client:
+    service-url:
+      defualtZone: http://52.53.225.72:8971/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+    instances:
+      testCircuitBreaker:
+        baseConfig: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      slow-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+logging:
+  level:
+    root: INFO
+
+jwt:
+  secret: Y29kZXN0YXRlcy1iaXRodW1iLW1zYS10ZWFtLW1lbWJlci1zcHJpbmctYm9vdC13ZWJmbHV4LWp3dC1zZWNyZXQ=
